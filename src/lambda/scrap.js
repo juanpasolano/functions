@@ -1,14 +1,35 @@
 import fetch from "node-fetch";
+import $ from "cheerio";
 
-const API_ENDPOINT =
-  "https://08ad1pao69.execute-api.us-east-1.amazonaws.com/dev/random_joke";
+const url = "https://www.asxenergy.com.au/";
 
 exports.handler = async (event, context) => {
-  return fetch(API_ENDPOINT)
-    .then(response => response.json())
-    .then(data => ({
-      statusCode: 200,
-      body: `${data.setup} ${data.punchline} *BA DUM TSSS*`
-    }))
+  return fetch(url)
+    .then(res => res.text())
+    .then(html => {
+      const table = $("#home-prices", html);
+      const headers = [];
+      const content = [[], [], [], []];
+      table.find("thead td").each((i, el) => {
+        headers.push($(el).text() || "year");
+      });
+      table.find("tbody tr").each((i, el) => {
+        el.children.forEach(td => {
+          const text = $(td)
+            .text()
+            .trim();
+          console.log(text);
+          if (text) content[i].push(text);
+        });
+        return { headers, content };
+      });
+      return {
+        statusCode: 200,
+        body: {
+          headers,
+          content
+        }
+      };
+    })
     .catch(error => ({ statusCode: 422, body: String(error) }));
 };
