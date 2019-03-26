@@ -9,18 +9,20 @@ exports.handler = async (event, context) => {
     .then(html => {
       const table = $("#home-prices", html);
       const headers = [];
-      const content = [[], [], [], []];
+      const content = [];
       table.find("thead td").each((i, el) => {
-        headers.push($(el).text() || "year");
+        const text = $(el).text() ;
+        headers.push(text === " " ? text : "year");
       });
       table.find("tbody tr").each((i, el) => {
-        el.children.forEach(td => {
+        const row = {}
+        el.children.forEach((td, indx) => {
           const text = $(td)
             .text()
             .trim();
-          console.log(text);
-          if (text) content[i].push(text);
+          row[headers[indx]] = text;
         });
+        content.push(row);
         return { headers, content };
       });
       return {
