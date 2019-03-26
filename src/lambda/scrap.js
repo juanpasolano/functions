@@ -38,6 +38,7 @@ exports.handler = async (event, context) => {
       //Ads to google sheets
 
       doc.useServiceAccountAuth(creds, function(err) {
+        console.log(err);
         doc.getInfo(function(err, info) {
           var sheet = info.worksheets[0];
           content.forEach((row, rowIdx) => {
@@ -54,7 +55,6 @@ exports.handler = async (event, context) => {
                 console.log(err);
                 console.log(res);
                 console.log("------------------");
-
                 if (rowIdx === content.length - 1) {
                   return {
                     statusCode: 200,
