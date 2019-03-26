@@ -24,14 +24,14 @@ exports.handler = async (event, context) => {
             row[headers[indx]] = $(td).text();
           });
         content.push(row);
-        return {
-          statusCode: 200,
-          body: JSON.stringify({
-            headers,
-            content
-          })
-        };
       });
+      return {
+        statusCode: 200,
+        body: JSON.stringify({
+          headers,
+          content
+        })
+      };
     })
     .catch(error => ({ statusCode: 422, body: String(error) }));
 };
