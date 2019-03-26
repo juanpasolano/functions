@@ -4,8 +4,8 @@ import GoogleSpreadsheet from "google-spreadsheet";
 
 var creds = {
   client_email: process.env.GCS_EMAIL,
-  private_key: process.env.GCS_PRIVATE_KEY.replace(/\\n/g, '\n')
-}
+  private_key: process.env.GCS_PRIVATE_KEY.replace(/\\n/g, "\n")
+};
 
 const sheetId = "1E--ADFQ16rbHPfF_wzOj_1IelS9DCmbce3_Xmvzcgkw";
 var doc = new GoogleSpreadsheet(sheetId);
@@ -40,11 +40,11 @@ exports.handler = async (event, context) => {
       doc.useServiceAccountAuth(creds, function(err) {
         doc.getInfo(function(err, info) {
           var sheet = info.worksheets[0];
-          content.forEach(row => {
+          content.forEach((row, rowIdx) => {
             console.log({
               date: new Date().toDateString(),
               ...row
-            })
+            });
             sheet.addRow(
               {
                 date: new Date().toDateString(),
@@ -54,19 +54,21 @@ exports.handler = async (event, context) => {
                 console.log(err);
                 console.log(res);
                 console.log("------------------");
+
+                if (rowIdx === content.length - 1) {
+                  return {
+                    statusCode: 200,
+                    body: JSON.stringify({
+                      headers,
+                      content
+                    })
+                  };
+                }
               }
             );
           });
         });
       });
-
-      return {
-        statusCode: 200,
-        body: JSON.stringify({
-          headers,
-          content
-        })
-      };
     })
     .catch(error => ({ statusCode: 422, body: String(error) }));
 };
