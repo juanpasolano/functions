@@ -1,9 +1,9 @@
-import fetch from "node-fetch";
-import $ from "cheerio";
+const fetch = require("node-fetch");
+const $ = require("cheerio");
 
 const url = "https://www.asxenergy.com.au/";
 
-exports.handler = async (event, context) => {
+const fetchDoc = async (event, context) => {
   return fetch(url)
     .then(res => res.text())
     .then(html => {
@@ -21,6 +21,9 @@ exports.handler = async (event, context) => {
         $(tr)
           .find("td")
           .each((indx, td) => {
+            console.log(indx);
+            console.log(headers[indx]);
+            console.log($(td).text());
             row[headers[indx]] = $(td).text();
           });
         content.push(row);
@@ -35,3 +38,5 @@ exports.handler = async (event, context) => {
     })
     .catch(error => ({ statusCode: 422, body: String(error) }));
 };
+
+fetchDoc();
