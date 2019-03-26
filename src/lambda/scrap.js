@@ -11,11 +11,11 @@ exports.handler = async (event, context) => {
       const headers = [];
       const content = [];
       table.find("thead td").each((i, el) => {
-        const text = $(el).text() ;
+        const text = $(el).text();
         headers.push(text === " " ? text : "year");
       });
       table.find("tbody tr").each((i, el) => {
-        const row = {}
+        const row = {};
         el.children.forEach((td, indx) => {
           const text = $(td)
             .text()
@@ -23,7 +23,10 @@ exports.handler = async (event, context) => {
           row[headers[indx]] = text;
         });
         content.push(row);
-        return { headers, content };
+        console.log({
+          headers,
+          content
+        });
       });
       return {
         statusCode: 200,
