@@ -1,5 +1,9 @@
 import fetch from "node-fetch";
 import $ from "cheerio";
+import GoogleSpreadsheet from "google-spreadsheet";
+
+const sheetId = "1E--ADFQ16rbHPfF_wzOj_1IelS9DCmbce3_Xmvzcgkw";
+var doc = new GoogleSpreadsheet(sheetId);
 
 const url = "https://www.asxenergy.com.au/";
 
@@ -25,6 +29,26 @@ exports.handler = async (event, context) => {
           });
         content.push(row);
       });
+
+      //Ads to google sheets
+
+      doc.useServiceAccountAuth(creds, function(err) {
+        doc.getInfo(function(err, info) {
+          var sheet = info.worksheets[0];
+          content.forEach(row => {
+            sheet.addRow(
+              {
+                date: new Date().toDateString(),
+                ...row
+              },
+              function(err, res) {
+                console.log(res);
+              }
+            );
+          });
+        });
+      });
+
       return {
         statusCode: 200,
         body: JSON.stringify({
