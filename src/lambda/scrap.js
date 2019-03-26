@@ -41,6 +41,8 @@ exports.handler = async (event, context) => {
         console.log(err);
         doc.getInfo(function(err, info) {
           var sheet = info.worksheets[0];
+          console.log(sheet);
+          console.log(content);
           content.forEach((row, rowIdx) => {
             console.log({
               date: new Date().toDateString(),
