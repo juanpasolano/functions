@@ -2,6 +2,11 @@ import fetch from "node-fetch";
 import $ from "cheerio";
 import GoogleSpreadsheet from "google-spreadsheet";
 
+var creds = {
+  client_email: process.env.GCS_EMAIL,
+  private_key: process.env.GCS_PRIVATE_KEY.replace(/\\n/g, '\n')
+}
+
 const sheetId = "1E--ADFQ16rbHPfF_wzOj_1IelS9DCmbce3_Xmvzcgkw";
 var doc = new GoogleSpreadsheet(sheetId);
 
