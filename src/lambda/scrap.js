@@ -41,13 +41,19 @@ exports.handler = async (event, context) => {
         doc.getInfo(function(err, info) {
           var sheet = info.worksheets[0];
           content.forEach(row => {
+            console.log({
+              date: new Date().toDateString(),
+              ...row
+            })
             sheet.addRow(
               {
                 date: new Date().toDateString(),
                 ...row
               },
               function(err, res) {
+                console.log(err);
                 console.log(res);
+                console.log("------------------");
               }
             );
           });
