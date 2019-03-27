@@ -73,6 +73,7 @@ const fetchDoc = async (event, context) => {
 
 const fetchAndStore = async () => {
   const content = await fetchDoc();
+  console.log(content);
   const res = await initDoc(content);
   return res;
 };
