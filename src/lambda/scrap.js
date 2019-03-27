@@ -1,4 +1,4 @@
-import { fetchAndStore } from "../util/fetch-doc";
+const { fetchAndStore } = require("../util/fetch-doc");
 
 exports.handler = async (event, context) => {
   try {
