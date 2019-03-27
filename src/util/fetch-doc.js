@@ -35,8 +35,8 @@ const initDoc = async content => {
         var sheet = info.worksheets[0];
         var promises = content.map(row => storeRow(row, sheet));
         Promise.all(promises).then(values => {
-          return resolve(values)
-        })
+          return resolve(values);
+        });
       });
     });
   });
@@ -73,7 +73,7 @@ const fetchDoc = async (event, context) => {
 
 export const fetchAndStore = async () => {
   const content = await fetchDoc();
+  console.log(content);
   const res = await initDoc(content);
   return res;
 };
-
