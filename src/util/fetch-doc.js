@@ -15,7 +15,7 @@ const storeRow = async (row, sheet) => {
   return new Promise((resolve, reject) => {
     sheet.addRow(
       {
-        date: new Date().toDateString(),
+        date: new Date().toString(),
         ...row
       },
       function(err, res) {
@@ -71,9 +71,11 @@ const fetchDoc = async (event, context) => {
   }
 };
 
-export const fetchAndStore = async () => {
+const fetchAndStore = async () => {
   const content = await fetchDoc();
-  console.log(content);
   const res = await initDoc(content);
   return res;
 };
+module.exports = {
+  fetchAndStore
+}
