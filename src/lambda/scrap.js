@@ -1,6 +1,6 @@
-const fetch = require("node-fetch");
-const $ = require("cheerio");
-var GoogleSpreadsheet = require("google-spreadsheet");
+import fetch from "node-fetch";
+import $ from "cheerio";
+import GoogleSpreadsheet from "google-spreadsheet";
 
 const url = "https://www.asxenergy.com.au/";
 var creds = {
